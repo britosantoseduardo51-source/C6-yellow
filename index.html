@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C6 Yellow - Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .phone-container {
+            width: 100%;
+            max-width: 414px;
+            height: 850px;
+            background-color: #121212;
+            border-radius: 40px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 8px solid #222;
+        }
+
+        /* Esconde a barra de rolagem */
+        .phone-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Cabeçalho */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 20px 10px 20px;
+        }
+
+        .user-greeting {
+            font-size: 15px;
+            color: #a0a0a0;
+        }
+
+        .user-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .eye-icon {
+            font-size: 20px;
+            cursor: pointer;
+            color: #ffffff;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Card Conta Corrente */
+        .account-card {
+            background-color: #1e1e1e;
+            margin: 15px 20px;
+            padding: 20px;
+            border-radius: 16px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .account-card:hover {
+            background-color: #252525;
+        }
+
+        .account-type {
+            font-size: 14px;
+            color: #b0b0b0;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .account-balance-label {
+            font-size: 13px;
+            color: #888888;
+            margin-bottom: 4px;
+        }
+
+        .account-balance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .account-balance {
+            font-size: 26px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .account-arrow {
+            font-size: 18px;
+            color: #aaaaaa;
+            font-weight: bold;
+        }
+
+        /* Ações Rápidas (Primeira linha de ícones) */
+        .quick-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            overflow-x: auto;
+            gap: 12px;
+        }
+
+        .quick-actions::-webkit-scrollbar {
+            display: none;
+        }
+
+        .action-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+            cursor: pointer;
+        }
+
+        .action-icon {
+            width: 52px;
+            height: 52px;
+            background-color: #1e1e1e;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 20px;
+            color: #ffffff;
+            transition: background 0.2s;
+        }
+
+        .action-item:hover .action-icon {
+            background-color: #2a2a2a;
+        }
+
+        .action-label {
+            font-size: 12px;
+            color: #cccccc;
+            text-align: center;
+        }
+
+        /* Seção Pix */
+        .pix-section {
+            margin: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff;
+        }
+
+        .pix-card {
+            background-color: #1e1e1e;
+            border-radius: 16px;
+            padding: 20px 15px;
+        }
+
+        .pix-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .pix-action-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .pix-icon {
+            width: 48px;
+            height: 48px;
+            background-color: #2a2a2a;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 18px;
+            color: #ffffff;
+        }
+
+        .pix-label {
+            font-size: 11px;
+            color: #cccccc;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .pix-footer-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            border-top: 1px solid #2a2a2a;
+            padding-top: 15px;
+        }
+
+        .pix-footer-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .pix-footer-btn:first-child {
+            border-right: 1px solid #2a2a2a;
+        }
+
+        /* Dicas C6 Yellow */
+        .tips-section {
+            margin: 20px 20px 90px 20px;
+        }
+
+        .tips-scroll {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .tips-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tip-card {
+            min-width: 260px;
+            height: 220px;
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #1e1e1e;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tip-banner {
+            height: 140px;
+            width: 100%;
+            background-color: #ffd700;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tip-banner.orange {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+        }
+
+        .tip-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tip-content {
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #1e1e1e;
+            flex: 1;
+        }
+
+        .tip-logo {
+            width: 32px;
+            height: 32px;
+            background-color: #ffd700;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #000;
+            font-size: 14px;
+        }
+
+        .tip-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* Barra de Navegação Inferior (Footer Nav) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 414px;
+            background-color: #181818;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0 24px 0;
+            border-top: 1px solid #282828;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #888888;
+            text-decoration: none;
+            font-size: 11px;
+            gap: 4px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-item.active {
+            color: #ffd700;
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            width: 24px;
+            height: 3px;
+            background-color: #ffd700;
+            border-radius: 2px;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-container">
+        <!-- Cabeçalho -->
+        <div class="header">
+            <div>
+                <div class="user-greeting">Olá,</div>
+                <div class="user-name">EDUARDO</div>
+            </div>
+            <div class="header-icons">
+                <span class="eye-icon" id="toggle-balance">👁️</span>
+                <div class="avatar">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces" alt="Perfil">
+                </div>
+            </div>
+        </div>
+
+        <!-- Conta Corrente -->
+        <div class="account-card">
+            <div class="account-type">
+                <span>🇧🇷</span> Conta corrente
+            </div>
+            <div class="account-balance-label">Saldo em reais</div>
+            <div class="account-balance-row">
+                <div class="account-balance" id="balance-value">R$ 1,99</div>
+                <div class="account-arrow">›</div>
+            </div>
+        </div>
+
+        <!-- Ações Rápidas -->
+        <div class="quick-actions">
+            <div class="action-item">
+                <div class="action-icon">📷</div>
+                <div class="action-label">Pagar</div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon">⇄</div>
+                <div class="action-label">Transferir</div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon">📄</div>
+                <div class="action-label">Extrato</div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon">💳</div>
+                <div class="action-label">Cartão</div>
+            </div>
+            <div class="action-item">
+                <div class="action-icon">📈</div>
+                <div class="action-label">Investir</div>
+            </div>
+        </div>
+
+        <!-- Pix -->
+        <div class="pix-section">
+            <div class="section-title">
+                <span>⚡</span> Pix
+            </div>
+            <div class="pix-card">
+                <div class="pix-actions-grid">
+                    <div class="pix-action-item">
+                        <div class="pix-icon">📷</div>
+                        <div class="pix-label">Pagar QR Code</div>
+                    </div>
+                    <div class="pix-action-item">
+                        <div class="pix-icon">⇄</div>
+                        <div class="pix-label">Transferir</div>
+                    </div>
+                    <div class="pix-action-item">
+                        <div class="pix-icon">💲</div>
+                        <div class="pix-label">Receber</div>
+                    </div>
+                    <div class="pix-action-item">
+                        <div class="pix-icon">💵</div>
+                        <div class="pix-label">Saque e Troco</div>
+                    </div>
+                </div>
+                <div class="pix-footer-buttons">
+                    <button class="pix-footer-btn">Minhas Chaves</button>
+                    <button class="pix-footer-btn">Meus Limites Pix</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dicas C6 Yellow -->
+        <div class="tips-section">
+            <div class="section-title">Dicas @C6Yellow</div>
+            <div class="tips-scroll">
+                <!-- Card 1 -->
+                <div class="tip-card">
+                    <div class="tip-banner">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=200&fit=crop" alt="Cartões Amarelos">
+                    </div>
+                    <div class="tip-content">
+                        <div class="tip-logo">C6</div>
+                        <div class="tip-text">Cartões @C6Yellow</div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="tip-card">
+                    <div class="tip-banner orange">
+                        <img src="https://images.unsplash.com/photo-1557683316-973673baf926?w=400&h=200&fit=crop" alt="App Preview">
+                    </div>
+                    <div class="tip-content">
+                        <div class="tip-logo" style="background:#ff7e5f; color:#fff;">C6</div>
+                        <div class="tip-text">App @C6Yellow</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu de Navegação Fixo Inferior -->
+        <div class="bottom-nav">
+            <a class="nav-item active" onclick="switchNav(this)">
+                <span class="nav-icon">🏠</span>
+                <span>Início</span>
+            </a>
+            <a class="nav-item" onclick="switchNav(this)">
+                <span class="nav-icon">💳</span>
+                <span>Cartões</span>
+            </a>
+            <a class="nav-item" onclick="switchNav(this)">
+                <span class="nav-icon">📈</span>
+                <span>Investir</span>
+            </a>
+            <a class="nav-item" onclick="switchNav(this)">
+                <span class="nav-icon">📄</span>
+                <span>Extrato</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Funcionalidade para ocultar/mostrar o saldo ao clicar no ícone do olho
+        const toggleBtn = document.getElementById('toggle-balance');
+        const balanceValue = document.getElementById('balance-value');
+        let hidden = false;
+
+        toggleBtn.addEventListener('click', () => {
+            hidden = !hidden;
+            if (hidden) {
+                balanceValue.textContent = 'R$ •••••';
+                toggleBtn.style.opacity = '0.5';
+            } else {
+                balanceValue.textContent = 'R$ 1,99';
+                toggleBtn.style.opacity = '1';
+            }
+        });
+
+        // Alternar aba ativa na navegação inferior
+        function switchNav(element) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+    </script>
+</body>
+</html>
